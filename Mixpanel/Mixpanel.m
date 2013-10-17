@@ -392,6 +392,43 @@ static Mixpanel *sharedInstance = nil;
     });
 }
 
+- (void)setAlias:(NSString *)alias
+{
+    @synchronized(self) {
+        if (!alias) {
+            NSLog(@"%@ error alias is nil", self);
+            return;
+        }
+
+        if (!self.distinctId) {
+            NSLog(@"%@ distinctId is nil", self);
+            return;
+        }
+
+        if ([alias isEqualToString:self.distinctId]) {
+            [self identify:alias];
+            return;
+        }
+
+        NSLog(@"Aliasing '%@' as '%@'", alias, self.distinctId);
+
+        NSMutableDictionary *p = [NSMutableDictionary dictionary];
+        [p setObject:self.apiToken forKey:@"token"];
+        [p setObject:self.distinctId forKey:@"distinct_id"];
+        [p setObject:alias forKey:@"alias"];
+
+        [Mixpanel assertPropertyTypes:p];
+
+        NSDictionary *e = [NSDictionary dictionaryWithObjectsAndKeys:@"$create_alias", @"event", [NSDictionary dictionaryWithDictionary:p], @"properties", nil];
+        MixpanelLog(@"%@ queueing event: %@", self, e);
+        [self.eventsQueue addObject:e];
+        if ([Mixpanel inBackground]) {
+            [self archiveEvents];
+        }
+        [self identify:alias];
+    }
+}
+
 - (NSString *)defaultDistinctId
 {
     NSString *distinctId = nil;
