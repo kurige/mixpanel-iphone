@@ -1,3 +1,5 @@
+*Temporary fork of Mixpanel's iOS library to add 'alias' method.*
+
 # Using Mixpanel Analytics on iOS #
 If you want to track user behavior on your iPhone\iPad application, first
 download the Mixpanel iOS API by cloning the git repository:
