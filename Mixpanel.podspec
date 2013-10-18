@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.summary      =  'iPhone tracking library for Mixpanel Analytics.'
   s.homepage     =  'http://mixpanel.com'
   s.author       =  { 'Mixpanel' => 'support@mixpanel.com' }
-  s.source       =  { :git => 'https://github.com/mixpanel/mixpanel-iphone.git', :tag => "v#{s.version}" }
+  s.source       =  { :git => 'https://github.com/kurige/mixpanel-iphone.git' }
   s.frameworks   =  'UIKit', 'Foundation', 'SystemConfiguration', 'CoreTelephony', 'AdSupport'
   s.platform     =  :ios, '4.3'
   s.source_files =  'Mixpanel/**/*.{m,h}'
